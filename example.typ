@@ -1,3 +1,4 @@
+#import "@preview/physica:0.9.2": *
 #import "systemB.typ": *
 
 #show: graduation_thesis.with(
@@ -47,7 +48,6 @@
 =
 章が変わるページの場合はページのみが表示されるはずです．なお，`#heading`を入れても改ページされるようにはなっていないので自分で`#pagebreak()`してください．
 == 数式
-Physics パッケージが入っているのでそのまま使えます．
 $
 nabla dot vb(B) = 0
 $

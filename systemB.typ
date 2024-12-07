@@ -1,5 +1,3 @@
-#import "@preview/ctheorems:1.1.0": *
-#import "@preview/physica:0.9.2": *
 #let graduation_thesis(
   title: "",
   student_id: "",

@@ -11,3 +11,8 @@
 # 変更履歴
 ## 2024/12/08
 初版を作成・公開しました．
+
+## 2024/12/17
+目次の章番号の横にタイトルが表示されるようにしました．<br/>
+PR: [#2](https://github.com/Manato1fg/system-graduation-thesis-template/pull/2) <br/>
+thx. [@YuukiNakan](https://github.com/YuukiNakan)

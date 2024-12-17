@@ -284,6 +284,8 @@
             #if el.numbering != none {
               text(10pt, weight: "bold")[
                 #numbering("第1章", ..counter(heading).at(loc))
+                #box(width: 0.03fr, repeat(""))
+                #el.body
               ]
             } else {
               text(10pt, weight: "bold")[
@@ -298,6 +300,8 @@
           [
             #h(10pt)
             #numbering("1.1", ..counter(heading).at(loc))
+            #box(width: 0.05fr, repeat(""))
+            #el.body
             #box(width: 0.05fr, repeat(""))
             #box(width: 0.9fr, repeat("  .  "))
             #box(width: 0.05fr, repeat(""))

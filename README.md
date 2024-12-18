@@ -16,3 +16,7 @@
 目次の章番号の横にタイトルが表示されるようにしました．<br/>
 PR: [#2](https://github.com/Manato1fg/system-graduation-thesis-template/pull/2) <br/>
 thx. [@YuukiNakan](https://github.com/YuukiNakan)
+
+## 2024/12/18
+ヘッダーにも目次の章番号の横にタイトルが表示されるようにしました．<br/>
+PR: [#3](https://github.com/Manato1fg/system-graduation-thesis-template/pull/3) <br/>

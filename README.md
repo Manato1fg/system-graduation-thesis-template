@@ -20,3 +20,6 @@ thx. [@YuukiNakan](https://github.com/YuukiNakan)
 ## 2024/12/18
 ヘッダーにも目次の章番号の横にタイトルが表示されるようにしました．<br/>
 PR: [#3](https://github.com/Manato1fg/system-graduation-thesis-template/pull/3) <br/>
+
+## 2024/12/25
+章の名前が二行に跨るときに文字が重なる問題を修正しました．

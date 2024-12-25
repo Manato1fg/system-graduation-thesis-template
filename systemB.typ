@@ -39,7 +39,7 @@
   show heading: set text(font: "Noto Serif JP", weight: "bold", size: 12pt)
 
   show heading.where(level: 1): it => {
-    set par(first-line-indent: 0pt,leading: 0em)
+    set par(first-line-indent: 0pt,leading: 1em)
     counter(math.equation).update(0)
     v(60pt)
     text(weight: "bold", size: 22pt, font: "Zen Kaku Gothic Antique")[

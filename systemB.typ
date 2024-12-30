@@ -42,13 +42,13 @@
     set par(first-line-indent: 0pt,leading: 1em)
     counter(math.equation).update(0)
     v(60pt)
-    text(weight: "bold", size: 22pt, font: "Zen Kaku Gothic Antique")[
+    text(weight: "bold", size: 22pt, font: "Hiragino Kaku Gothic Pro")[
       #if it.numbering != none {
         numbering("第1章", ..counter(heading).at(it.location()))
       }
     ]
     v(22pt)
-    text(weight: "bold", size: 22pt, font: "Zen Kaku Gothic Antique")[#it.body \ ]
+    text(weight: "bold", size: 22pt, font: "Hiragino Kaku Gothic Pro")[#it.body \ ]
   }
 
   show heading.where(level: 2): it => {
@@ -143,7 +143,7 @@
     }
   }
 
-  set text(font: "Zen Kaku Gothic Antique", weight: "medium")
+  set text(font: "Hiragino Kaku Gothic Pro", weight: "medium")
 
   // タイトル
   place(top + center, dy: 4.7cm)[
@@ -242,7 +242,7 @@
     width: 100%,
   )[
     #align(center)[
-      #text(10pt, font: "Zen Kaku Gothic Antique")[
+      #text(10pt, font: "Hiragino Kaku Gothic Pro")[
         概要
       ]
     ]
@@ -266,7 +266,7 @@
     #show outline: it => {
       let elements = query(it.target)
       set par(first-line-indent: 0pt)
-      text(26pt, font: "Zen Kaku Gothic Antique", weight: "bold")[
+      text(26pt, font: "Hiragino Kaku Gothic Pro", weight: "bold")[
         #it.title
       ]
       v(2.5em)

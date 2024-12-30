@@ -6,7 +6,7 @@
 `example.typ`を参考にしてください．
 
 ## フォントについて
-フォントは[Noto Serif JP](https://fonts.google.com/noto/specimen/Noto+Serif+JP)と[Zen Kaku Gothic Antique](https://fonts.google.com/specimen/Zen+Kaku+Gothic+Antique)を使っているので自分のパソコンにインストールしてください．
+フォントは[Noto Serif JP](https://fonts.google.com/noto/specimen/Noto+Serif+JP)を使っているので自分のパソコンにインストールしてください．
 
 # 変更履歴
 ## 2024/12/08

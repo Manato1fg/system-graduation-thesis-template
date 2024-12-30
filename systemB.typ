@@ -39,16 +39,16 @@
   show heading: set text(font: "Noto Serif JP", weight: "bold", size: 12pt)
 
   show heading.where(level: 1): it => {
-    set par(first-line-indent: 0pt,leading: 1em)
+    set par(first-line-indent: 0pt,leading: 0em)
     counter(math.equation).update(0)
     v(60pt)
-    text(weight: "bold", size: 22pt, font: "Hiragino Kaku Gothic Pro")[
+    text(weight: "bold", size: 22pt, font: "Zen Kaku Gothic Antique")[
       #if it.numbering != none {
         numbering("第1章", ..counter(heading).at(it.location()))
       }
     ]
     v(22pt)
-    text(weight: "bold", size: 22pt, font: "Hiragino Kaku Gothic Pro")[#it.body \ ]
+    text(weight: "bold", size: 22pt, font: "Zen Kaku Gothic Antique")[#it.body \ ]
   }
 
   show heading.where(level: 2): it => {
@@ -59,7 +59,10 @@
         numbering("1.1.1.1", ..counter(heading).at(it.location()))
       }
     ]
-    text(weight: "bold", size: 14pt)[#it.body \ ]
+    text(weight: "bold", size: 14pt, font: "Zen Kaku Gothic Antique")[
+      #h(10pt)
+      #it.body \
+      ]
     par(text(size: 1em, ""))
   }
 
@@ -143,7 +146,7 @@
     }
   }
 
-  set text(font: "Hiragino Kaku Gothic Pro", weight: "medium")
+  set text(font: "Zen Kaku Gothic Antique", weight: "medium")
 
   // タイトル
   place(top + center, dy: 4.7cm)[
@@ -237,12 +240,12 @@
   pagebreak()
 
   // Abstract
-  v(7.8cm)
+  v(5.0cm)
   box(
     width: 100%,
   )[
     #align(center)[
-      #text(10pt, font: "Hiragino Kaku Gothic Pro")[
+      #text(10pt, font: "Zen Kaku Gothic Antique")[
         概要
       ]
     ]
@@ -266,7 +269,7 @@
     #show outline: it => {
       let elements = query(it.target)
       set par(first-line-indent: 0pt)
-      text(26pt, font: "Hiragino Kaku Gothic Pro", weight: "bold")[
+      text(26pt, font: "Zen Kaku Gothic Antique", weight: "bold")[
         #it.title
       ]
       v(2.5em)
@@ -302,9 +305,9 @@
             #numbering("1.1", ..counter(heading).at(loc))
             #box(width: 0.05fr, repeat(""))
             #el.body
-            #box(width: 0.05fr, repeat(""))
+            #box(width: 0.03fr, repeat(""))
             #box(width: 0.9fr, repeat("  .  "))
-            #box(width: 0.05fr, repeat(""))
+            #box(width: 0.02fr, repeat(""))
             #page 
             \ 
           ]

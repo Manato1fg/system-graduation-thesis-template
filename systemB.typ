@@ -39,7 +39,7 @@
   show heading: set text(font: "Noto Serif JP", weight: "bold", size: 12pt)
 
   show heading.where(level: 1): it => {
-    set par(first-line-indent: 0pt,leading: 0em)
+    set par(first-line-indent: 0pt,leading: 1em)
     counter(math.equation).update(0)
     v(60pt)
     text(weight: "bold", size: 22pt, font: "Hiragino Kaku Gothic Pro")[
@@ -330,9 +330,11 @@
   // Footerを置き換える形で実装する
   // パワープレイな理由は，章を変更した時にページの横に何かがつくのを避けるため
   set page(footer: context {
-    let selector = selector(heading.where(level: 1)).before(here())
-    let level = counter(selector)
-    let headings = query(selector)
+    let selector_1 = selector(heading.where(level: 1)).before(here())
+    let headings = query(selector_1)
+
+    let selector_2 = selector(heading.where(level: 2)).before(here())
+    let subheadings = query(selector_2)
     place(
       top,
       dy: -24.45cm
@@ -352,6 +354,12 @@
           #h(0.05fr)
           #if not flag {
             numbering("第1章", counter(heading).get().first())
+            [
+              #text(9pt, weight: "bold", font: "Noto Serif JP")[
+                #h(0.05fr)
+                #headings.at(counter(heading).get().first() - 1).body
+              ]
+            ]
           }
         ]
         #h(1fr)
@@ -360,6 +368,9 @@
         #text(9pt, weight: "bold", font: "Noto Serif JP")[
           #if not flag {
             numbering("1.1", ..counter(heading).get().slice(0, 2))
+            text(9pt, weight: "bold", font: "Noto Serif JP")[
+              #subheadings.last().body
+          ]
           }
           #h(0.05fr)
           #counter(page).get().first()

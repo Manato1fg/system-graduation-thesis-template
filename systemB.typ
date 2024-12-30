@@ -286,8 +286,11 @@
           [
             #if el.numbering != none {
               text(10pt, weight: "bold")[
-                #numbering("第1章", ..counter(heading).at(loc))
-                #box(width: 0.03fr, repeat(""))
+                #box(width: 45pt)[
+                  #align(left)[
+                    #numbering("第1章", ..counter(heading).at(loc))
+                  ]
+                ]
                 #el.body
               ]
             } else {
@@ -302,8 +305,11 @@
         } else if level == 2 {
           [
             #h(10pt)
-            #numbering("1.1", ..counter(heading).at(loc))
-            #box(width: 0.05fr, repeat(""))
+            #box(width: 35pt)[
+              #align(left)[
+                #numbering("1.1", ..counter(heading).at(loc))
+              ]
+            ]
             #el.body
             #box(width: 0.03fr, repeat(""))
             #box(width: 0.9fr, repeat("  .  "))

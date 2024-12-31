@@ -41,22 +41,20 @@
   show heading.where(level: 1): it => {
     set par(first-line-indent: 0pt,leading: 0.5em)
     counter(math.equation).update(0)
-    counter(figure.where(kind: table)).update(0)
-    counter(figure.where(kind: image)).update(0)
-    counter(figure.where(kind: raw)).update(0)
     v(60pt)
     text(weight: "bold", size: 22pt, font: "Hiragino Kaku Gothic Pro")[
       #if it.numbering != none {
         numbering("第1章", ..counter(heading).at(it.location()))
       }
     ]
-    v(22pt)
+    v(12pt)
     text(weight: "bold", size: 22pt, font: "Hiragino Kaku Gothic Pro")[#it.body \ ]
+    v(22pt)
   }
 
   show heading.where(level: 2): it => {
     set par(first-line-indent: 0pt, leading: 0.5em)
-    par(text(size: 1em, ""))    
+    par(text(size: 1.5em, ""))    
     text(weight: "bold", size: 14pt, font: "Noto Serif JP")[
       #if it.numbering != none {
         numbering("1.1.1.1", ..counter(heading).at(it.location()))
@@ -83,12 +81,10 @@
 
   // 表のfigureの設定
   show figure.where(kind: table): set figure.caption(position: top)
-  show figure.where(kind: table): set figure(supplement: "表", numbering: num =>
-    ((counter(heading).get().at(0),) + (num,)).map(str).join("."))
+  show figure.where(kind: table): set figure(supplement: "表")
 
   // 図の設定
-  set figure(supplement: "図", numbering: num =>
-    ((counter(heading).get().at(0),) + (num,)).map(str).join("."))
+  set figure(supplement: "図")
 
   // 数式の設定
   set math.equation(numbering: num =>
@@ -380,7 +376,7 @@
       ] else [
         #h(1fr)
         #text(9pt, weight: "bold", font: "Noto Serif JP")[
-          #if not flag {
+          #if not flag{
             numbering("1.1", ..counter(heading).get().slice(0, 2))
             text(9pt, weight: "bold", font: "Noto Serif JP")[
               #subheadings.last().body
@@ -419,32 +415,3 @@
   #heading(level: 1, outlined: true, numbering: none)[#body]
   #v(22pt)
 ]
-
-#let image_num(_) = {
-  locate(loc => {
-    let chapt = counter(heading).at(loc).at(0)
-    let c = counter("image-chapter" + str(chapt))
-    let n = c.at(loc).at(0)
-    str(chapt) + "." + str(n + 1)
-  })
-}
-
-#let img(img, caption: "") = {
-  figure(
-    img,
-    caption: caption,
-    supplement: [図],
-    numbering: image_num,
-    kind: "image",
-  )
-}
-
-#let imgs(img, caption: "") = {
-  figure(
-    img,
-    caption: caption,
-    supplement: [],
-    numbering: none,
-    kind: "image",
-  )
-}

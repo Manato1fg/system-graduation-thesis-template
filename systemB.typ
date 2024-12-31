@@ -39,27 +39,30 @@
   show heading: set text(font: "Noto Serif JP", weight: "bold", size: 12pt)
 
   show heading.where(level: 1): it => {
-    set par(first-line-indent: 0pt,leading: 0em)
+    set par(first-line-indent: 0pt,leading: 0.5em)
     counter(math.equation).update(0)
+    counter(figure.where(kind: table)).update(0)
+    counter(figure.where(kind: image)).update(0)
+    counter(figure.where(kind: raw)).update(0)
     v(60pt)
-    text(weight: "bold", size: 22pt, font: "Zen Kaku Gothic Antique")[
+    text(weight: "bold", size: 22pt, font: "Hiragino Kaku Gothic Pro")[
       #if it.numbering != none {
         numbering("第1章", ..counter(heading).at(it.location()))
       }
     ]
     v(22pt)
-    text(weight: "bold", size: 22pt, font: "Zen Kaku Gothic Antique")[#it.body \ ]
+    text(weight: "bold", size: 22pt, font: "Hiragino Kaku Gothic Pro")[#it.body \ ]
   }
 
   show heading.where(level: 2): it => {
-    set par(first-line-indent: 0pt, leading: 0em)
+    set par(first-line-indent: 0pt, leading: 0.5em)
     par(text(size: 1em, ""))    
     text(weight: "bold", size: 14pt, font: "Noto Serif JP")[
       #if it.numbering != none {
         numbering("1.1.1.1", ..counter(heading).at(it.location()))
       }
     ]
-    text(weight: "bold", size: 14pt, font: "Zen Kaku Gothic Antique")[
+    text(weight: "bold", size: 14pt, font: "Hiragino Kaku Gothic Pro")[
       #h(10pt)
       #it.body \
       ]
@@ -67,7 +70,7 @@
   }
 
   show heading.where(level: 3): it => {
-    set par(first-line-indent: 0pt,leading: 0em)
+    set par(first-line-indent: 0pt,leading: 0.5em)
     par(text(size: 0.45em, ""))    
     text(weight: "bold", size: 12pt, font: "Noto Serif JP")[
       #if it.numbering != none {
@@ -80,10 +83,12 @@
 
   // 表のfigureの設定
   show figure.where(kind: table): set figure.caption(position: top)
-  show figure.where(kind: table): set figure(supplement: "表")
+  show figure.where(kind: table): set figure(supplement: "表", numbering: num =>
+    ((counter(heading).get().at(0),) + (num,)).map(str).join("."))
 
   // 図の設定
-  set figure(supplement: "図")
+  set figure(supplement: "図", numbering: num =>
+    ((counter(heading).get().at(0),) + (num,)).map(str).join("."))
 
   // 数式の設定
   set math.equation(numbering: num =>
@@ -146,7 +151,7 @@
     }
   }
 
-  set text(font: "Zen Kaku Gothic Antique", weight: "medium")
+  set text(font: "Hiragino Kaku Gothic Pro", weight: "medium")
 
   // タイトル
   place(top + center, dy: 4.7cm)[
@@ -245,7 +250,7 @@
     width: 100%,
   )[
     #align(center)[
-      #text(10pt, font: "Zen Kaku Gothic Antique")[
+      #text(10pt, font: "Hiragino Kaku Gothic Pro")[
         概要
       ]
     ]
@@ -269,7 +274,7 @@
     #show outline: it => {
       let elements = query(it.target)
       set par(first-line-indent: 0pt)
-      text(26pt, font: "Zen Kaku Gothic Antique", weight: "bold")[
+      text(26pt, font: "Hiragino Kaku Gothic Pro", weight: "bold")[
         #it.title
       ]
       v(2.5em)
@@ -286,8 +291,11 @@
           [
             #if el.numbering != none {
               text(10pt, weight: "bold")[
-                #numbering("第1章", ..counter(heading).at(loc))
-                #box(width: 0.03fr, repeat(""))
+                #box(width: 45pt)[
+                  #align(left)[
+                    #numbering("第1章", ..counter(heading).at(loc))
+                  ]
+                ]
                 #el.body
               ]
             } else {
@@ -302,8 +310,11 @@
         } else if level == 2 {
           [
             #h(10pt)
-            #numbering("1.1", ..counter(heading).at(loc))
-            #box(width: 0.05fr, repeat(""))
+            #box(width: 35pt)[
+              #align(left)[
+                #numbering("1.1", ..counter(heading).at(loc))
+              ]
+            ]
             #el.body
             #box(width: 0.03fr, repeat(""))
             #box(width: 0.9fr, repeat("  .  "))
@@ -408,3 +419,32 @@
   #heading(level: 1, outlined: true, numbering: none)[#body]
   #v(22pt)
 ]
+
+#let image_num(_) = {
+  locate(loc => {
+    let chapt = counter(heading).at(loc).at(0)
+    let c = counter("image-chapter" + str(chapt))
+    let n = c.at(loc).at(0)
+    str(chapt) + "." + str(n + 1)
+  })
+}
+
+#let img(img, caption: "") = {
+  figure(
+    img,
+    caption: caption,
+    supplement: [図],
+    numbering: image_num,
+    kind: "image",
+  )
+}
+
+#let imgs(img, caption: "") = {
+  figure(
+    img,
+    caption: caption,
+    supplement: [],
+    numbering: none,
+    kind: "image",
+  )
+}

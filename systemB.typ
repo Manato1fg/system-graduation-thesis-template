@@ -363,24 +363,34 @@
           #counter(page).get().first()
           #h(0.05fr)
           #if not flag {
-            numbering("第1章", counter(heading).get().first())
-            [
-              #text(9pt, weight: "bold", font: "Noto Serif JP")[
-                #h(0.05fr)
-                #headings.at(counter(heading).get().first() - 1).body
+            // 参考文献とかのnumberingがnoneになっているかどうかで場合分け
+            if headings.last().numbering != none {
+              numbering("第1章", counter(heading).get().first())
+              [
+                #text(9pt, weight: "bold", font: "Noto Serif JP")[
+                  #h(0.05fr)
+                  #headings.at(counter(heading).get().first() - 1).body
+                ]
               ]
-            ]
+            } else {
+              text(9pt, weight: "bold", font: "Noto Serif JP")[
+                #headings.last().body
+              ]
+            }
           }
         ]
         #h(1fr)
       ] else [
         #h(1fr)
         #text(9pt, weight: "bold", font: "Noto Serif JP")[
-          #if not flag{
-            numbering("1.1", ..counter(heading).get().slice(0, 2))
-            text(9pt, weight: "bold", font: "Noto Serif JP")[
-              #subheadings.last().body
-          ]
+          #if not flag {
+            // 参考文献とかは無視
+            if counter(heading).get().len() >= 2 {
+              numbering("1.1", ..counter(heading).get().slice(0, 2))
+              text(9pt, weight: "bold", font: "Noto Serif JP")[
+                #subheadings.last().body
+              ]
+            }
           }
           #h(0.05fr)
           #counter(page).get().first()

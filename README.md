@@ -24,8 +24,8 @@ PR: [#3](https://github.com/Manato1fg/system-graduation-thesis-template/pull/3) 
 ## 2024/12/25
 章の名前が二行に跨るときに文字が重なる問題を修正しました．
 
-## 2024/01/01
-#5 #8 #10 に対応しました．
+## 2025/01/01
+[#5](https://github.com/Manato1fg/system-graduation-thesis-template/issues/5) [#8](https://github.com/Manato1fg/system-graduation-thesis-template/issues/8) [#10](https://github.com/Manato1fg/system-graduation-thesis-template/issues/10) に対応しました．
 - 図の番号を章番号.図表番号にしました．
 - Zen Kaku Gothic Fontをやめて，Hiragino Kaku Gothic Proに変更しました．
 - 見出しがガタガタになっていた問題を修正しました．

@@ -39,7 +39,7 @@
   show heading: set text(font: "Noto Serif JP", weight: "bold", size: 12pt)
 
   show heading.where(level: 1): it => {
-    set par(first-line-indent: 0pt,leading: 0em)
+    set par(first-line-indent: 0pt,leading: 0.5em)
     counter(math.equation).update(0)
     counter(figure.where(kind: table)).update(0)
     counter(figure.where(kind: image)).update(0)
@@ -50,13 +50,14 @@
         numbering("第1章", ..counter(heading).at(it.location()))
       }
     ]
-    v(22pt)
+    v(12pt)
     text(weight: "bold", size: 22pt, font: "Hiragino Kaku Gothic Pro")[#it.body \ ]
+    v(22pt)
   }
 
   show heading.where(level: 2): it => {
-    set par(first-line-indent: 0pt, leading: 0em)
-    par(text(size: 1em, ""))    
+    set par(first-line-indent: 0pt, leading: 0.5em)
+    par(text(size: 1.5em, ""))    
     text(weight: "bold", size: 14pt, font: "Noto Serif JP")[
       #if it.numbering != none {
         numbering("1.1.1.1", ..counter(heading).at(it.location()))
@@ -70,7 +71,7 @@
   }
 
   show heading.where(level: 3): it => {
-    set par(first-line-indent: 0pt,leading: 0em)
+    set par(first-line-indent: 0pt,leading: 0.5em)
     par(text(size: 0.45em, ""))    
     text(weight: "bold", size: 12pt, font: "Noto Serif JP")[
       #if it.numbering != none {
@@ -367,13 +368,20 @@
           #counter(page).get().first()
           #h(0.05fr)
           #if not flag {
-            numbering("第1章", counter(heading).get().first())
-            [
-              #text(9pt, weight: "bold", font: "Noto Serif JP")[
-                #h(0.05fr)
-                #headings.at(counter(heading).get().first() - 1).body
+            // 参考文献とかのnumberingがnoneになっているかどうかで場合分け
+            if headings.last().numbering != none {
+              numbering("第1章", counter(heading).get().first())
+              [
+                #text(9pt, weight: "bold", font: "Noto Serif JP")[
+                  #h(0.05fr)
+                  #headings.at(counter(heading).get().first() - 1).body
+                ]
               ]
-            ]
+            } else {
+              text(9pt, weight: "bold", font: "Noto Serif JP")[
+                #headings.last().body
+              ]
+            }
           }
         ]
         #h(1fr)
@@ -381,10 +389,13 @@
         #h(1fr)
         #text(9pt, weight: "bold", font: "Noto Serif JP")[
           #if not flag {
-            numbering("1.1", ..counter(heading).get().slice(0, 2))
-            text(9pt, weight: "bold", font: "Noto Serif JP")[
-              #subheadings.last().body
-          ]
+            // 参考文献とかは無視
+            if counter(heading).get().len() >= 2 {
+              numbering("1.1", ..counter(heading).get().slice(0, 2))
+              text(9pt, weight: "bold", font: "Noto Serif JP")[
+                #subheadings.last().body
+              ]
+            }
           }
           #h(0.05fr)
           #counter(page).get().first()

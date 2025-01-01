@@ -41,6 +41,9 @@
   show heading.where(level: 1): it => {
     set par(first-line-indent: 0pt,leading: 0.5em)
     counter(math.equation).update(0)
+    counter(figure.where(kind: table)).update(0)
+    counter(figure.where(kind: image)).update(0)
+    counter(figure.where(kind: raw)).update(0)
     v(60pt)
     text(weight: "bold", size: 22pt, font: "Hiragino Kaku Gothic Pro")[
       #if it.numbering != none {
@@ -81,10 +84,12 @@
 
   // 表のfigureの設定
   show figure.where(kind: table): set figure.caption(position: top)
-  show figure.where(kind: table): set figure(supplement: "表")
+  show figure.where(kind: table): set figure(supplement: "表", numbering: num =>
+    ((counter(heading).get().at(0),) + (num,)).map(str).join("."))
 
   // 図の設定
-  set figure(supplement: "図")
+  set figure(supplement: "図", numbering: num =>
+    ((counter(heading).get().at(0),) + (num,)).map(str).join("."))
 
   // 数式の設定
   set math.equation(numbering: num =>

@@ -76,9 +76,10 @@
     text(weight: "bold", size: 12pt, font: "Noto Serif JP")[
       #if it.numbering != none {
         numbering("1.1.1.1", ..counter(heading).at(it.location()))
+        h(10pt)
       }
     ]
-    text(weight: "bold", size: 12pt)[#it.body \ ]
+    text(weight: "bold", size: 12pt, font: "Hiragino Kaku Gothic Pro")[#it.body \ ]
     par(text(size: 0.75em, ""))    
   }
 

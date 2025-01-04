@@ -15,7 +15,6 @@
 ## 2024/12/17
 目次の章番号の横にタイトルが表示されるようにしました．<br/>
 PR: [#2](https://github.com/Manato1fg/system-graduation-thesis-template/pull/2) <br/>
-thx. [@YuukiNakan](https://github.com/YuukiNakan)
 
 ## 2024/12/18
 ヘッダーにも目次の章番号の横にタイトルが表示されるようにしました．<br/>
@@ -31,3 +30,7 @@ PR: [#3](https://github.com/Manato1fg/system-graduation-thesis-template/pull/3) 
 - 見出しがガタガタになっていた問題を修正しました．
 - 改行したときの見栄えを修正しました
 - 参考文献にもページ番号を正しく振るようにしました．
+
+## 2025/01/04
+[#18](https://github.com/Manato1fg/system-graduation-thesis-template/pull/18)と[#19](https://github.com/Manato1fg/system-graduation-thesis-template/pull/19)
+- [tinymist](https://github.com/Myriad-Dreamin/tinymist)と[Typst LSP](https://github.com/nvarner/typst-lsp)でレイアウトが違ったので見た目上は同じになるようにしました．

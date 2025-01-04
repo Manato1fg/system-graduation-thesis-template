@@ -12,6 +12,7 @@
   write_month: "1",
   abstract: "ここに概要を書く．",
   bibliography-file: "./references.bib",
+  is_tinymist: true,  // tinymistの場合はtrue, Typst LSPの場合はfalse
 )
 
 = 序章

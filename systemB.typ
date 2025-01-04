@@ -366,6 +366,9 @@
 
       #if calc.even(page_here) [
         #text(9pt, weight: "bold", font: "Noto Serif JP")[
+          #if counter(page).get().first() == 0 {
+            return
+          }
           #counter(page).get().first()
           #h(0.05fr)
           #if not flag {

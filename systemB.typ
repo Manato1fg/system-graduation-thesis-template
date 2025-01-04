@@ -8,7 +8,8 @@
   write_year: "",
   write_month: "",
   abstract: "",
-  bibliography-file: "", 
+  bibliography-file: "",
+  is_tinymist: false,
   body
 ) = {
   // テキストの設定
@@ -50,14 +51,26 @@
         numbering("第1章", ..counter(heading).at(it.location()))
       }
     ]
-    v(12pt)
+    if is_tinymist {
+      v(8pt)
+    } else {
+      v(12pt)
+    }
     text(weight: "bold", size: 22pt, font: "Hiragino Kaku Gothic Pro")[#it.body \ ]
-    v(22pt)
+    if is_tinymist {
+      v(8pt)
+    } else {
+      v(22pt)
+    }
   }
 
   show heading.where(level: 2): it => {
     set par(first-line-indent: 0pt, leading: 0.5em)
-    par(text(size: 1.5em, ""))    
+    if is_tinymist {
+      par(text(size: 1em, ""))
+    } else {
+      par(text(size: 1.5em, "")) 
+    }   
     text(weight: "bold", size: 14pt, font: "Noto Serif JP")[
       #if it.numbering != none {
         numbering("1.1.1.1", ..counter(heading).at(it.location()))
@@ -67,7 +80,11 @@
       #h(10pt)
       #it.body \
       ]
-    par(text(size: 1em, ""))
+    if is_tinymist {
+      v(8pt)
+    } else {
+      par(text(size: 1em, "")) 
+    }   
   }
 
   show heading.where(level: 3): it => {
@@ -79,8 +96,12 @@
         h(10pt)
       }
     ]
-    text(weight: "bold", size: 12pt, font: "Hiragino Kaku Gothic Pro")[#it.body \ ]
-    par(text(size: 0.75em, ""))    
+    text(weight: "bold", size: 12pt, font: "Hiragino Kaku Gothic Pro")[#it.body ]
+    if is_tinymist {
+      v(4pt)
+    } else {
+      par(text(size: 0.75em, "")) 
+    }
   }
 
   // 表のfigureの設定
@@ -366,6 +387,9 @@
 
       #if calc.even(page_here) [
         #text(9pt, weight: "bold", font: "Noto Serif JP")[
+          #if counter(page).get().first() == 0 {
+            return
+          }
           #counter(page).get().first()
           #h(0.05fr)
           #if not flag {

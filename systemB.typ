@@ -383,6 +383,7 @@
         let last_loc = last_heading.location()
         let last_page = last_loc.page() - 6
         flag = last_page == page_here
+        flag = flag or last_heading.numbering == none
       }
 
       #if calc.even(page_here) [

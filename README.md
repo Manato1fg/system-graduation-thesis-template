@@ -42,3 +42,4 @@ PR: [#3](https://github.com/Manato1fg/system-graduation-thesis-template/pull/3) 
 ## 2025/01/12
 - 目次に表示されるページが間違っている問題を修正しました
 - 付録を実装しました．詳細は`example.typ`を見てください．
+- [#23](https://github.com/Manato1fg/system-graduation-thesis-template/pull/23) 目次がページを跨いだ時の挙動を変更しました．

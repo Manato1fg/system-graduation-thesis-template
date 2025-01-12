@@ -332,13 +332,13 @@
     let rows = 0;
     for el in elements {
       if el.level == 1 {
-        rows += 2
+        rows += 1.5
       } else if el.level == 2 {
         rows += 1
       }
     }
     // 最初のページだけ30行で計算
-    let offset = 7 + calc.floor((rows - 30) / 42)
+    let offset = 7 + calc.floor((rows - 35) / 42)
     for el in elements {
       let level = el.level
       let loc = el.location()
@@ -418,12 +418,12 @@
     let _selector_2 = selector(heading.where(level: 2))
     let _subheadings = query(_selector_2)
     for el in _headings {
-      rows += 2
+      rows += 1.5
     }
     for el in _subheadings {
       rows += 1
     }
-    let offset = 7 + calc.floor((rows - 30) / 42)
+    let offset = 7 + calc.floor((rows - 35) / 42)
     let selector_1 = selector(heading.where(level: 1)).before(here())
     let headings = query(selector_1)
 

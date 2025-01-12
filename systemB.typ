@@ -307,7 +307,7 @@
         // repr(el)
         let level = el.level
         let loc = el.location()
-        let page = loc.page() - 5 // offset
+        let page = loc.page() - 6 // offset
         
         if level == 1 {
           v(5pt)

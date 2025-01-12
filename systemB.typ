@@ -173,15 +173,10 @@
     } else if it.element != none and it.element.func() == math.equation {
       let el = it.element
       let loc = el.location()
-      let chapt = counter(heading).at(loc).at(0)
       let num = counter(math.equation).at(loc).at(0)
 
       it.element.supplement
-      " ("
-      str(chapt)
-      "."
-      str(num)
-      ")"
+      numbering(el.numbering, num)
     } else if it.element != none and it.element.func() == heading {
       let el = it.element
       let loc = el.location()
@@ -537,8 +532,22 @@
   body
 ) = {
   // 見出しの設定
+  let all = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
   counter(heading).update(0)
   set heading(numbering: "A.1.1.1")
+
+  // 表のfigureの設定
+  show figure.where(kind: table): set figure.caption(position: top)
+  show figure.where(kind: table): set figure(supplement: "表", numbering: num =>
+    ((all.at(counter(heading).get().at(0) - 1),) + (num,)).map(str).join("."))
+
+  // 図の設定
+  set figure(supplement: "図", numbering: num =>
+    ((all.at(counter(heading).get().at(0) - 1),) + (num,)).map(str).join("."))
+  
+  // 数式の設定
+  set math.equation(numbering: num =>
+    "(" + ((all.at(counter(heading).get().at(0) - 1),) + (num,)).map(str).join(".") + ")", supplement: "式")
   show heading: set text(font: "Noto Serif JP", weight: "bold", size: 12pt)
   body
 }

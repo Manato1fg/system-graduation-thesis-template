@@ -11,7 +11,7 @@
   write_year: "2024",
   write_month: "1",
   abstract: "ここに概要を書く．",
-  bibliography-file: "./references.bib",
+  bibliography-file: "", // 付録がない場合はここで指定しておくと自動的に末尾に挿入される
   is_tinymist: true,  // tinymistの場合はtrue, Typst LSPの場合はfalse
 )
 
@@ -74,4 +74,32 @@ $
 
 // 見出しのないheading
 #chap[謝辞]
+`#chap`を使うと見出しのないheadingが作れます．
 何か不明な点や不具合があればissue立ててください．主に#link("https://zenn.dev/chantakan/articles/ed80950004d145")を参考にしました．
+
+#reference(bibliography-file: "./references.bib")
+#pagebreak()
+#appendix(is_tinymist: true)[
+  = 付録
+  付録は`#appendix`を使うと追加されますが，`graduation_thesis.with`の引数に`bibliography-file`を指定していると末尾に参考文献が出てきてしまうので，手動で書く必要があります．
+```
+#import "systemB.typ": *
+
+#show: graduation_thesis.with(
+  ...
+  bibliography-file: "", // ここを空文字列にする
+)
+
+...
+
+#reference(bibliography-file: "./references.bib") // 明示的に指定
+
+#appendix(is_tinymist: true)[
+  = 付録のタイトル
+  == 付録の中身
+  付録の中身です
+]
+```
+  == 付録の中身
+  このように指定すると，付録の中身が表示されます．
+]

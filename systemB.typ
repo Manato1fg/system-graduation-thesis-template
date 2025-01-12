@@ -1,3 +1,19 @@
+#let reference(bibliography-file: "") = [
+  // Display bibliography.
+  #if bibliography-file != "" {
+    show bibliography: set text(12pt)
+    show bibliography: set heading(numbering: "[1]")
+    show bibliography: it => {
+      pagebreak()
+      heading(level: 1, outlined: true, numbering: none)[参考文献]
+      v(1em)
+      set text(10pt)
+      it
+    }
+    bibliography(bibliography-file, title: none, style: "ieee")
+  }
+]
+
 #let graduation_thesis(
   title: "",
   student_id: "",
@@ -48,7 +64,11 @@
     v(60pt)
     text(weight: "bold", size: 22pt, font: "Hiragino Kaku Gothic Pro")[
       #if it.numbering != none {
-        numbering("第1章", ..counter(heading).at(it.location()))
+        if it.numbering.contains("A") {
+          numbering("付録A", ..counter(heading).at(it.location()))
+        } else {
+          numbering("第1章", ..counter(heading).at(it.location()))
+        }
       }
     ]
     if is_tinymist {
@@ -73,7 +93,11 @@
     }   
     text(weight: "bold", size: 14pt, font: "Noto Serif JP")[
       #if it.numbering != none {
-        numbering("1.1.1.1", ..counter(heading).at(it.location()))
+        if it.numbering.contains("A") {
+          numbering("A.1.1.1", ..counter(heading).at(it.location()))
+        } else {
+          numbering("1.1.1.1", ..counter(heading).at(it.location()))
+        }
       }
     ]
     text(weight: "bold", size: 14pt, font: "Hiragino Kaku Gothic Pro")[
@@ -92,7 +116,11 @@
     par(text(size: 0.45em, ""))    
     text(weight: "bold", size: 12pt, font: "Noto Serif JP")[
       #if it.numbering != none {
-        numbering("1.1.1.1", ..counter(heading).at(it.location()))
+        if it.numbering.contains("A") {
+          numbering("付録A.1.1.1", ..counter(heading).at(it.location()))
+        } else {
+          numbering("1.1.1.1", ..counter(heading).at(it.location()))
+        }
         h(10pt)
       }
     ]
@@ -159,9 +187,14 @@
       let loc = el.location()
       let num = numbering(el.numbering, ..counter(heading).at(loc))
       if el.level == 1 {
-        "第"
-        str(num).replace(".", "")
-        "章"
+        if el.numbering.contains("A") {
+          "付録"
+          str(num).replace(".", "")
+        } else {
+          "第"
+          str(num).replace(".", "")
+          "章"
+        }
       } else if el.level == 2 {
         str(num)
         "節"
@@ -313,10 +346,15 @@
           v(5pt)
           [
             #if el.numbering != none {
+              let is_appendix = el.numbering.contains("A")
               text(10pt, weight: "bold")[
                 #box(width: 45pt)[
                   #align(left)[
-                    #numbering("第1章", ..counter(heading).at(loc))
+                    #if is_appendix {
+                      numbering("付録A", ..counter(heading).at(loc))
+                    } else {
+                      numbering("第1章", ..counter(heading).at(loc))
+                    }
                   ]
                 ]
                 #el.body
@@ -335,7 +373,12 @@
             #h(10pt)
             #box(width: 35pt)[
               #align(left)[
-                #numbering("1.1", ..counter(heading).at(loc))
+                #let is_appendix = el.numbering.contains("A")
+                #if is_appendix {
+                  numbering("A.1", ..counter(heading).at(loc))
+                } else {
+                  numbering("1.1", ..counter(heading).at(loc))
+                }
               ]
             ]
             #el.body
@@ -395,14 +438,26 @@
           #h(0.05fr)
           #if not flag {
             // 参考文献とかのnumberingがnoneになっているかどうかで場合分け
-            if headings.last().numbering != none {
-              numbering("第1章", counter(heading).get().first())
-              [
-                #text(9pt, weight: "bold", font: "Noto Serif JP")[
-                  #h(0.05fr)
-                  #headings.at(counter(heading).get().first() - 1).body
+            let last_heading = headings.last()
+            if last_heading.numbering != none {
+              let is_appendix = last_heading.numbering.contains("A")
+              if is_appendix {
+                numbering("付録A", counter(heading).get().first())
+                [
+                  #text(9pt, weight: "bold", font: "Noto Serif JP")[
+                    #h(0.05fr)
+                    #last_heading.body
+                  ]
                 ]
-              ]
+              } else {
+                numbering("第1章", counter(heading).get().first())
+                [
+                  #text(9pt, weight: "bold", font: "Noto Serif JP")[
+                    #h(0.05fr)
+                    #last_heading.body
+                  ]
+                ]
+              }
             } else {
               text(9pt, weight: "bold", font: "Noto Serif JP")[
                 #headings.last().body
@@ -417,10 +472,19 @@
           #if not flag {
             // 参考文献とかは無視
             if counter(heading).get().len() >= 2 {
-              numbering("1.1", ..counter(heading).get().slice(0, 2))
-              text(9pt, weight: "bold", font: "Noto Serif JP")[
-                #subheadings.last().body
-              ]
+              let last_heading = headings.last()
+              let is_appendix = last_heading.numbering.contains("A")
+              if is_appendix {
+                numbering("A.1", ..counter(heading).get().slice(0, 2))
+                text(9pt, weight: "bold", font: "Noto Serif JP")[
+                  #subheadings.last().body
+                ]
+              } else {
+                numbering("1.1", ..counter(heading).get().slice(0, 2))
+                text(9pt, weight: "bold", font: "Noto Serif JP")[
+                  #subheadings.last().body
+                ]
+              }
             }
           }
           #h(0.05fr)
@@ -434,21 +498,13 @@
 
   body
 
-  // Display bibliography.
+  // 参考文献の後ろに付録をつけたい場合は
+  // graduation_thesisにはbibliography-fileを渡さず，
+  // 自分でreferenceを呼び出す
   if bibliography-file != "" {
-    show bibliography: set text(12pt)
-    show bibliography: set heading(numbering: "[1]")
-    show bibliography: it => {
-      pagebreak()
-      heading(level: 1, outlined: true, numbering: none)[参考文献]
-      v(1em)
-      set text(10pt)
-      it
-    }
-    bibliography(bibliography-file, title: none, style: "ieee")
+    reference(bibliography-file: bibliography-file)
   }
 }
-
 
 // 見出し無しheading
 #let chap(body) = [
@@ -456,3 +512,14 @@
   #heading(level: 1, outlined: true, numbering: none)[#body]
   #v(22pt)
 ]
+
+#let appendix(
+  is_tinymist: false, 
+  body
+) = {
+  // 見出しの設定
+  counter(heading).update(0)
+  set heading(numbering: "A.1.1.1")
+  show heading: set text(font: "Noto Serif JP", weight: "bold", size: 12pt)
+  body
+}

@@ -324,76 +324,82 @@
 
   // 目次
   v(3.9cm)
-  box(
-    width: 100%,
-  )[
-    #show outline: it => {
-      let elements = query(it.target)
-      set par(first-line-indent: 0pt)
-      text(26pt, font: "Hiragino Kaku Gothic Pro", weight: "bold")[
-        #it.title
-      ]
-      v(2.5em)
-      set par(first-line-indent: 0pt)
-      set text(10pt, font: "Noto Serif JP", weight: "regular")
-      for el in elements {
-        // repr(el)
-        let level = el.level
-        let loc = el.location()
-        let page = loc.page() - 6 // offset
-        
-        if level == 1 {
-          v(5pt)
-          [
-            #if el.numbering != none {
-              let is_appendix = el.numbering.contains("A")
-              text(10pt, weight: "bold")[
-                #box(width: 45pt)[
-                  #align(left)[
-                    #if is_appendix {
-                      numbering("付録A", ..counter(heading).at(loc))
-                    } else {
-                      numbering("第1章", ..counter(heading).at(loc))
-                    }
-                  ]
-                ]
-                #el.body
-              ]
-            } else {
-              text(10pt, weight: "bold")[
-                #el.body
-              ]
-            }
-            #box(width: 1fr, repeat[])
-            #page 
-            \
-          ]
-        } else if level == 2 {
-          [
-            #h(10pt)
-            #box(width: 35pt)[
-              #align(left)[
-                #let is_appendix = el.numbering.contains("A")
-                #if is_appendix {
-                  numbering("A.1", ..counter(heading).at(loc))
-                } else {
-                  numbering("1.1", ..counter(heading).at(loc))
-                }
-              ]
-            ]
-            #el.body
-            #box(width: 0.03fr, repeat(""))
-            #box(width: 0.9fr, repeat("  .  "))
-            #box(width: 0.02fr, repeat(""))
-            #page 
-            \ 
-          ]
-        } // 3以上は無視
+  show outline: it => {
+    let elements = query(it.target)
+    set par(first-line-indent: 0pt)
+    text(26pt, font: "Hiragino Kaku Gothic Pro", weight: "bold")[
+      #it.title
+    ]
+    v(2.5em)
+    set par(first-line-indent: 0pt)
+    set text(10pt, font: "Noto Serif JP", weight: "regular")
+    // 行数を測っておく
+    let rows = 0;
+    for el in elements {
+      if el.level == 1 {
+        rows += 2
+      } else if el.level == 2 {
+        rows += 1
       }
     }
+    // 最初のページだけ30行で計算
+    let offset = 7 + calc.floor((rows - 30) / 42)
+    for el in elements {
+      let level = el.level
+      let loc = el.location()
+      let page = loc.page() - offset // offset
+      
+      if level == 1 {
+        v(5pt)
+        [
+          #if el.numbering != none {
+            let is_appendix = el.numbering.contains("A")
+            text(10pt, weight: "bold")[
+              #box(width: 45pt)[
+                #align(left)[
+                  #if is_appendix {
+                    numbering("付録A", ..counter(heading).at(loc))
+                  } else {
+                    numbering("第1章", ..counter(heading).at(loc))
+                  }
+                ]
+              ]
+              #el.body
+            ]
+          } else {
+            text(10pt, weight: "bold")[
+              #el.body
+            ]
+          }
+          #box(width: 1fr, repeat[])
+          #page 
+          \
+        ]
+      } else if level == 2 {
+        [
+          #h(10pt)
+          #box(width: 35pt)[
+            #align(left)[
+              #let is_appendix = el.numbering.contains("A")
+              #if is_appendix {
+                numbering("A.1", ..counter(heading).at(loc))
+              } else {
+                numbering("1.1", ..counter(heading).at(loc))
+              }
+            ]
+          ]
+          #el.body
+          #box(width: 0.03fr, repeat(""))
+          #box(width: 0.9fr, repeat("  .  "))
+          #box(width: 0.02fr, repeat(""))
+          #page 
+          \ 
+        ]
+      } // 3以上は無視
+    }
+  }
 
-    #outline(title: "目次")
-  ]
+  outline(title: "目次")
 
   pagebreak()
 
@@ -410,6 +416,19 @@
   // Footerを置き換える形で実装する
   // パワープレイな理由は，章を変更した時にページの横に何かがつくのを避けるため
   set page(footer: context {
+    let rows = 0;
+    let _selector_1 = selector(heading.where(level: 1))
+    let _headings = query(_selector_1)
+
+    let _selector_2 = selector(heading.where(level: 2))
+    let _subheadings = query(_selector_2)
+    for el in _headings {
+      rows += 2
+    }
+    for el in _subheadings {
+      rows += 1
+    }
+    let offset = 7 + calc.floor((rows - 30) / 42)
     let selector_1 = selector(heading.where(level: 1)).before(here())
     let headings = query(selector_1)
 
@@ -424,7 +443,7 @@
       #if headings.len() > 0 {
         let last_heading = headings.last()
         let last_loc = last_heading.location()
-        let last_page = last_loc.page() - 6
+        let last_page = last_loc.page() - offset
         flag = last_page == page_here
         flag = flag or last_heading.numbering == none
       }

@@ -38,3 +38,6 @@ PR: [#3](https://github.com/Manato1fg/system-graduation-thesis-template/pull/3) 
 ## 2025/01/11
 [#20](https://github.com/Manato1fg/system-graduation-thesis-template/pull/20)
 - 参考文献のページが跨いだ時にページの横に見出しが出てきてしまう問題を修正しました
+
+## 2025/01/12
+- 目次に表示されるページが間違っている問題を修正しました

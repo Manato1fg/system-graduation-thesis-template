@@ -528,7 +528,6 @@
 ]
 
 #let appendix(
-  is_tinymist: false, 
   body
 ) = {
   // 見出しの設定

@@ -79,7 +79,7 @@ $
 
 #reference(bibliography-file: "./references.bib")
 #pagebreak()
-#appendix(is_tinymist: true)[
+#appendix()[
   = 付録
   付録は`#appendix`を使うと追加されますが，`graduation_thesis.with`の引数に`bibliography-file`を指定していると末尾に参考文献が出てきてしまうので，手動で書く必要があります．
 ```
@@ -94,7 +94,7 @@ $
 
 #reference(bibliography-file: "./references.bib") // 明示的に指定
 
-#appendix(is_tinymist: true)[
+#appendix()[
   = 付録のタイトル
   == 付録の中身
   付録の中身です

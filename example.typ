@@ -8,6 +8,11 @@
   student_id: "XX-XXXXXX",
   mentor_name: "東大花子",
   mentor_position: "教授",
+  // 指導教員が複数いる場合は次のように書きます
+  // mentors: (
+  //   (name: "東大花子", position: "教授"),
+  //   (name: "東大次郎", position: "准教授"),
+  // ),
   write_year: "2024",
   write_month: "1",
   abstract: "ここに概要を書く．",

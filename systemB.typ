@@ -21,6 +21,7 @@
   your_name_en: "",
   mentor_name: "",
   mentor_position: "",
+  mentors: (),
   write_year: "",
   write_month: "",
   abstract: "",
@@ -258,17 +259,41 @@
               指導教員
             ]
           ),
-          place(
-            left,
-            dx: -1em,
-            text(16pt)[
-              #mentor_name #mentor_position
-            ]
-          ),
+          if mentors.len() > 0 {
+            place(
+              left,
+              dx: -1em,
+              text(16pt)[
+                #let i = 0
+                #while i < mentors.len() {
+                  let mentor = mentors.at(i)
+                  [#mentor.name #mentor.position]
+                  i = i + 1
+                  if i < mentors.len() [
+                    \
+                  ]
+                }
+              ]
+            )
+          } else {
+            // 一人の場合はそのまま書く
+            place(
+              left,
+              dx: -1em,
+              text(16pt)[
+                #mentor_name #mentor_position
+              ]
+            )
+          }
         )
 
         
-        #v(55pt)
+        #if mentors.len() > 2 {
+          let voffset = mentors.len() * 25 + 5
+          v(voffset * 1pt)
+        } else {
+          v(55pt)
+        }
         #align(center, text(16pt)[
           #write_year 年 #write_month 月
         ])

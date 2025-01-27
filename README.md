@@ -49,3 +49,4 @@ PR: [#3](https://github.com/Manato1fg/system-graduation-thesis-template/pull/3) 
 
 ## 2025/01/27
 - 正式なコース名はシステム情報コースではなく，システム情報**工学**コースでした．失礼しました．
+- 指導教員が複数いる場合に対応しました．
